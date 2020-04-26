@@ -7,12 +7,23 @@ class MaterialController {
 
   async show({ params }) {
     const materials = await Material.findByOrFail("slug", params.slug);
-    await materials.loadMany(["module.series"]);
+    await materials.load("module.series");
 
     return {
       status: 200,
       message: "success",
       data: materials
+    };
+  }
+
+  async showById({ params }) {
+    const module = await Material.findOrFail(params.id);
+    await module.load("module.series")
+
+    return {
+      status: 200,
+      message: "success",
+      data: module,
     };
   }
 

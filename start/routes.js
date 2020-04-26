@@ -47,6 +47,9 @@ Route.get("/articles/:slug", "ArticleController.show");
 Route.get("/series", "SeriesController.index");
 Route.get("/series/:slug", "SeriesController.show");
 
+// Materials
+Route.get("/materials/:slug", "MaterialController.show");
+
 // * Required Auth
 Route.group(() => {
   // * Profile
@@ -101,11 +104,13 @@ Route.group(() => {
 
   // * Module
   Route.post("/modules/create", "ModuleController.create");
+  Route.get("/modules/:id", "ModuleController.show");
   Route.put("/modules/update/:id", "ModuleController.update");
   Route.delete("/modules/delete/:id", "ModuleController.delete");
 
   // * Materials
   Route.post("/materials/create", "MaterialController.create");
+  Route.get("/materials/id/:id", "MaterialController.showById");
   Route.put("/materials/update/:id", "MaterialController.update");
   Route.delete("/materials/delete/:id", "MaterialController.delete");
 

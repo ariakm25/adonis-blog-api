@@ -1,14 +1,24 @@
-'use strict'
+"use strict";
 
 const Module = use("App/Models/Module");
 const { validateAll } = use("Validator");
 
 class ModuleController {
+  async show({ params }) {
+    const module = await Module.findOrFail(params.id);
+    await module.load("series")
+
+    return {
+      status: 200,
+      message: "success",
+      data: module,
+    };
+  }
 
   async create({ request, response }) {
     const rules = {
       title: "required",
-      series_id: "required"
+      series_id: "required",
     };
 
     const messages = {
@@ -22,7 +32,7 @@ class ModuleController {
       return response.status(400).json({
         status: 400,
         message: "failed",
-        data: validation.messages()
+        data: validation.messages(),
       });
     }
 
@@ -31,14 +41,14 @@ class ModuleController {
     return {
       status: 200,
       message: "success",
-      data: newModule
+      data: newModule,
     };
   }
 
   async update({ request, params }) {
     const updateModule = await Module.findOrFail(params.id);
     updateModule.title = request.input("title");
-    if(request.input("series_id")) {
+    if (request.input("series_id")) {
       updateModule.series_id = request.input("series_id");
     }
     await updateModule.save();
@@ -46,7 +56,7 @@ class ModuleController {
     return {
       status: 200,
       message: "success",
-      data: updateModule
+      data: updateModule,
     };
   }
 
@@ -57,10 +67,9 @@ class ModuleController {
     return {
       status: 200,
       message: "success",
-      data: deleteModule
+      data: deleteModule,
     };
   }
-
 }
 
-module.exports = ModuleController
+module.exports = ModuleController;
