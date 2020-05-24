@@ -41,6 +41,7 @@ Route.get("/tags/:id", "TagController.show");
 
 // Articles
 Route.get("/articles", "ArticleController.index");
+Route.get("/random_articles", "ArticleController.random");
 Route.get("/articles/:slug", "ArticleController.show");
 
 // Series

@@ -6,7 +6,7 @@ const { validateAll } = use("Validator");
 class ArticleController {
   async index({ request }) {
     const page = request.input("page") || 1;
-    const perPage = request.input("per_page") || 9;
+    const perPage = request.input("per_page") || 8;
     const title = request.input("title");
     const query = Article.query();
 
@@ -31,6 +31,28 @@ class ArticleController {
       .where("status", 1)
       .orderBy("id", "DESC")
       .paginate(page, perPage);
+
+    return {
+      status: 200,
+      message: "success",
+      data: articles,
+    };
+  }
+
+  async random() {
+    const articles = await Article.query()
+      .select(
+        "id",
+        "title",
+        "slug",
+        "image",
+        "created_at",
+        "updated_at"
+      )
+      .where("status", 1)
+      .orderByRaw('RAND()')
+      .limit(5)
+      .fetch()
 
     return {
       status: 200,
